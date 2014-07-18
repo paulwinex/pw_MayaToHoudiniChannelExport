@@ -43,7 +43,7 @@ class MSliderClass(QWidget):
                                   fieldMaxValue=10000.0,
                                   value=0.01,
                                   precision=3,
-                                  columnWidth3=[40,80,150]
+                                  columnWidth3=[90,80,150]
                                   )
         qSlid = qControl(sld, QWidget)
         qSlid.setParent(self)
