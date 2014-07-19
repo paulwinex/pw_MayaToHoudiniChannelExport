@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\Dropbox\Dropbox\pw_prefs\RnD\maya\python\Export\pw_MayaToHoudiniChannelExport\widgets\channelExportWindow.ui'
 #
-# Created: Sat Jul 19 14:46:13 2014
+# Created: Sat Jul 19 15:31:19 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_channelExportWindow(object):
     def setupUi(self, channelExportWindow):
         channelExportWindow.setObjectName("channelExportWindow")
-        channelExportWindow.resize(432, 621)
+        channelExportWindow.resize(432, 663)
         self.centralwidget = QtGui.QWidget(channelExportWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_4 = QtGui.QVBoxLayout(self.centralwidget)
@@ -78,9 +78,13 @@ class Ui_channelExportWindow(object):
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_3.addItem(spacerItem)
         self.verticalLayout_4.addWidget(self.splitter)
-        self.outFile_ly = QtGui.QHBoxLayout()
+        self.groupBox_6 = QtGui.QGroupBox(self.centralwidget)
+        self.groupBox_6.setObjectName("groupBox_6")
+        self.outFile_ly = QtGui.QVBoxLayout(self.groupBox_6)
+        self.outFile_ly.setSpacing(4)
+        self.outFile_ly.setContentsMargins(4, 4, 4, 4)
         self.outFile_ly.setObjectName("outFile_ly")
-        self.verticalLayout_4.addLayout(self.outFile_ly)
+        self.verticalLayout_4.addWidget(self.groupBox_6)
         self.groupBox_5 = QtGui.QGroupBox(self.centralwidget)
         self.groupBox_5.setObjectName("groupBox_5")
         self.gridLayout_2 = QtGui.QGridLayout(self.groupBox_5)
@@ -148,6 +152,19 @@ class Ui_channelExportWindow(object):
         self.verticalLayout_4.addWidget(self.progress_pbr)
         self.verticalLayout_4.setStretch(0, 1)
         channelExportWindow.setCentralWidget(self.centralwidget)
+        self.menuBar = QtGui.QMenuBar(channelExportWindow)
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 432, 21))
+        self.menuBar.setObjectName("menuBar")
+        self.menuHelp = QtGui.QMenu(self.menuBar)
+        self.menuHelp.setObjectName("menuHelp")
+        channelExportWindow.setMenuBar(self.menuBar)
+        self.manual_act = QtGui.QAction(channelExportWindow)
+        self.manual_act.setObjectName("manual_act")
+        self.about_act = QtGui.QAction(channelExportWindow)
+        self.about_act.setObjectName("about_act")
+        self.menuHelp.addAction(self.manual_act)
+        self.menuHelp.addAction(self.about_act)
+        self.menuBar.addAction(self.menuHelp.menuAction())
 
         self.retranslateUi(channelExportWindow)
         QtCore.QObject.connect(self.autoRange_cbx, QtCore.SIGNAL("toggled(bool)"), self.startRange_spb.setDisabled)
@@ -169,15 +186,22 @@ class Ui_channelExportWindow(object):
         self.removeNonExists_btn.setText(QtGui.QApplication.translate("channelExportWindow", "Remove Nonexistent Objects", None, QtGui.QApplication.UnicodeUTF8))
         self.removeAll_btn.setText(QtGui.QApplication.translate("channelExportWindow", "Clear All", None, QtGui.QApplication.UnicodeUTF8))
         self.info_lb.setText(QtGui.QApplication.translate("channelExportWindow", "Info", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_6.setTitle(QtGui.QApplication.translate("channelExportWindow", "Output File", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_5.setTitle(QtGui.QApplication.translate("channelExportWindow", "Options", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_4.setTitle(QtGui.QApplication.translate("channelExportWindow", "Frame Range", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("channelExportWindow", "Range:", None, QtGui.QApplication.UnicodeUTF8))
         self.autoRange_cbx.setToolTip(QtGui.QApplication.translate("channelExportWindow", "<html><head/><body><p>Request range from all animation curves in scene and set maximum and minimum to range </p><p>Always On in batch mode</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.autoRange_cbx.setText(QtGui.QApplication.translate("channelExportWindow", "AUTO", None, QtGui.QApplication.UnicodeUTF8))
+        self.currentTimeToStart_btn.setToolTip(QtGui.QApplication.translate("channelExportWindow", "<html><head/><body><p>Current frame to start</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.currentTimeToStart_btn.setText(QtGui.QApplication.translate("channelExportWindow", "►", None, QtGui.QApplication.UnicodeUTF8))
+        self.currentTimeToEnd_btn.setToolTip(QtGui.QApplication.translate("channelExportWindow", "<html><head/><body><p>Current frame to end</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.currentTimeToEnd_btn.setText(QtGui.QApplication.translate("channelExportWindow", "◄", None, QtGui.QApplication.UnicodeUTF8))
+        self.setTimeLineRange_btn.setToolTip(QtGui.QApplication.translate("channelExportWindow", "<html><head/><body><p>Current animation range to export range</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.setTimeLineRange_btn.setText(QtGui.QApplication.translate("channelExportWindow", "▲     From Time Line    ▲ ", None, QtGui.QApplication.UnicodeUTF8))
         self.batchMode_btn.setToolTip(QtGui.QApplication.translate("channelExportWindow", "<html><head/><body><p>1. Open rig scene</p><p>2. Load objects to list</p><p>3. Press Batch ...</p><p>4. Select fbx files</p><p><br/></p><p>Auto will be turn ON</p><p>Out clip file path will same as fbx file path</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.batchMode_btn.setText(QtGui.QApplication.translate("channelExportWindow", "Batch...", None, QtGui.QApplication.UnicodeUTF8))
         self.export_btn.setText(QtGui.QApplication.translate("channelExportWindow", "EXPORT", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuHelp.setTitle(QtGui.QApplication.translate("channelExportWindow", "Help", None, QtGui.QApplication.UnicodeUTF8))
+        self.manual_act.setText(QtGui.QApplication.translate("channelExportWindow", "Manual", None, QtGui.QApplication.UnicodeUTF8))
+        self.about_act.setText(QtGui.QApplication.translate("channelExportWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
 

@@ -24,7 +24,6 @@ class channelsTreeWidgetClass(QTreeWidget):
                 item = QTreeWidgetItem()
                 item.setText(0,name)
                 self.addTopLevelItem(item)
-                # item.setExpanded(1)
                 names[name] = self.indexOfTopLevelItem(item)
             chan = a.split('.')[-1]
             #add channel

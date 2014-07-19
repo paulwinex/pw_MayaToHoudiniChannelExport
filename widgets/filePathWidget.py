@@ -31,7 +31,6 @@ class filePathWidgetClass(QWidget):
             if isinstance(self.__extList, list):
                 filterList = '(' + ' '.join(['*.%s' % x for x in self.__extList]) + ')'
             elif isinstance(self.__extList, dict):
-                # filterList = "Images (*.png *.xpm *.jpg);;Text files (*.txt);;XML files (*.xml)"
                 types = []
                 for key,value in self.__extList.items():
                     s = key + ' (' +' '.join(['*.%s' % x for x in value]) +')'

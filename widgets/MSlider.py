@@ -17,7 +17,7 @@ class MSliderClass(QWidget):
         self.val = [x for x in cmds.lsUI(controls=1, long=1) if self.mayaName in x][0]
 
     def getMayaSlider(self, text):
-        window = cmds.window()
+        _ = cmds.window()
         cmds.columnLayout()
         sld = cmds.floatSliderGrp(self.mayaName,
                                   label=text,
@@ -28,10 +28,11 @@ class MSliderClass(QWidget):
                                   fieldMaxValue=10000.0,
                                   value=1,
                                   precision=3,
-                                  columnWidth3=[90,80,150]
+                                  columnWidth3=[75,50,260]
                                   )
         qSlid = qControl(sld, QWidget)
         qSlid.setParent(self)
+        cmds.deleteUI(_)
         return qSlid
 
     def value(self):

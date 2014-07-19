@@ -5,13 +5,13 @@ if qt == 1:
     from widgets import channelExportWindow_UI as ui
 else:
     from widgets import channelExportWindow_UIs as ui
-# reload(ui)
+reload(ui)
 from widgets import MSlider
-# reload(MSlider)
+reload(MSlider)
 from widgets import treeWidget
-# reload(treeWidget)
+reload(treeWidget)
 import channelDataReader
-# reload(channelDataReader)
+reload(channelDataReader)
 from widgets import filePathWidget
 
 gChannelBoxName = mel.eval('$temp=$gChannelBoxName')
@@ -50,6 +50,8 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
         self.tree.updateInfoSignal.connect(self.showInfo)
         self.saveToFile_btn.clicked.connect(self.saveToFile)
         self.addFromFile_btn.clicked.connect(self.importFromFile)
+        self.about_act.triggered.connect(self.about)
+        self.manual_act.triggered.connect(self.openManual)
         #start
         self.showInfo()
 
@@ -274,3 +276,34 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
 Objects:  %s
 Channels: %s''' % (objectCount, channelCount)
         self.info_lb.setText(msg)
+
+    def openManual(self):
+        import webbrowser
+        webbrowser.open('http://www.paulwinex.ru/')
+
+    def about(self):
+        dial = aboutDialog(self)
+        dial.show()
+
+
+class aboutDialog(QDialog):
+    def __init__(self, parent):
+        super(aboutDialog, self).__init__(parent)
+        self.parent = parent
+        self.setWindowFlags( self.windowFlags() & ~Qt.WindowContextHelpButtonHint )
+        self.Layout = QVBoxLayout()
+        self.text = QLabel()
+        self.text.setText('Maya to Houdini channel Exporter v%s\nby Paul Winex' % version)
+        self.text.setAlignment(Qt.AlignCenter)
+        self.text.mouseReleaseEvent = self.openLink
+        self.Layout.addWidget(self.text)
+
+        self.pushButton = QPushButton('Close')
+        self.pushButton.clicked.connect(self.close)
+        self.Layout.addWidget(self.pushButton)
+        self.setLayout(self.Layout)
+        self.resize(300,100)
+        self.setWindowTitle("About MtH Channel exporter v{0}".format(version))
+
+    def openLink(self, event):
+        self.parent.openManual()

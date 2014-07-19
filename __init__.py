@@ -15,7 +15,7 @@ You can load .clip file via fileCHOP.
 from mayaqtimport import *
 
 from . import channelExportWindow
-# reload(channelExportWindow)
+reload(channelExportWindow)
 
 def getMayaWindow():
     ptr = omui.MQtUtil.mainWindow()
