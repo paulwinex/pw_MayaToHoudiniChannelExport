@@ -5,13 +5,13 @@ if qt == 1:
     from widgets import channelExportWindow_UI as ui
 else:
     from widgets import channelExportWindow_UIs as ui
-reload(ui)
+# reload(ui)
 from widgets import MSlider
-reload(MSlider)
+# reload(MSlider)
 from widgets import treeWidget
-reload(treeWidget)
+# reload(treeWidget)
 import channelDataReader
-reload(channelDataReader)
+# reload(channelDataReader)
 from widgets import filePathWidget
 
 gChannelBoxName = mel.eval('$temp=$gChannelBoxName')
