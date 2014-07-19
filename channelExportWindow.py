@@ -156,7 +156,7 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
             return
         text, ok = QInputDialog.getText(self, 'Create export set', 'Enter name:', QLineEdit.Normal,'NewSet')
         if ok:
-            #check objets exists
+            #check objects exists
             for o in objs.keys():
                 if not cmds.objExists(o):
                     del objs[o]
@@ -265,7 +265,6 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
             print '='*50
             print name
             print i+1, '/', len(fbxList)
-
             self.startExport(fbx=scene, outFile=outPath, auto=True)
 
 
