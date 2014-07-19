@@ -7,4 +7,6 @@ Export Maya channels to single Houdini CHOP file
 pw_MayaToHoudiniChannelExport.show()</code></pre>
 
 
+Manual
 
+Soon...
