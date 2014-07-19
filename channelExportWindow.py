@@ -1,10 +1,10 @@
-from PySide.QtCore import *
-from PySide.QtGui import *
-import maya.cmds as cmds
-import maya.mel as mel
-import os, time
+import os
 
-from widgets import channelExportWindow_UIs as ui
+from qtimport import *
+if qt == 1:
+    from widgets import channelExportWindow_UI as ui
+else:
+    from widgets import channelExportWindow_UIs as ui
 from widgets import MSlider
 reload(MSlider)
 reload(ui)
@@ -33,22 +33,26 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
         self.scale_ly.addWidget(self.scale_sbx)
         # ui
         self.setRangeFromScene()
-        # self.addFromSet_btn.setEnabled(0)
-        # self.removeSelected_btn.setEnabled(0)
-        # self.saveToSet_btn.setEnabled(0)
         #connect
         self.addSelectedObject_btn.clicked.connect(self.addSelectedObject)
         self.addFromChannelBox_btn.clicked.connect(self.addFromChannelBox)
         self.export_btn.clicked.connect(self.startExportUi)
-        self.removeAll_btn.clicked.connect(self.tree.clear)
+        self.removeAll_btn.clicked.connect(self.clearTree)
         self.removeSelected_btn.clicked.connect(self.tree.removeSelected)
         self.setTimeLineRange_btn.clicked.connect(self.setRangeFromScene)
         self.saveToSet_btn.clicked.connect(self.saveSetData)
-        self.addFromSet_btn.clicked.connect(self.loadSetData)
+        # self.addFromSet_btn.clicked.connect(self.loadSetData)
+        self.addFromSet_btn.clicked.connect(self.loadFromSet)
         self.currentTimeToEnd_btn.clicked.connect(self.setEndFrameByCurrent)
         self.currentTimeToStart_btn.clicked.connect(self.setStartFrameByCurrent)
         self.batchMode_btn.clicked.connect(self.selectFilesToBatch)
+        self.tree.updateInfoSignal.connect(self.showInfo)
+        #start
+        self.showInfo()
 
+    def clearTree(self):
+        self.tree.clear()
+        self.showInfo()
 
     def addSelectedObject(self):
         sel = cmds.ls(sl=1)
@@ -131,8 +135,6 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
         self.progress_pbr.setValue(0)
 
     def getAutoRange(self):
-        # data = self.tree.getData()
-        # objects = list(set([x.split('.')[0] for x in data]))
         maxTime = max([ x for x in [ max(cmds.keyframe(crv,q=1, tc=1)) for crv in cmds.ls(type='animCurve') ] ])
         minTime = min([ x for x in [ min(cmds.keyframe(crv,q=1, tc=1)) for crv in cmds.ls(type='animCurve') ] ])
         result = [int(minTime), int(maxTime)]
@@ -157,23 +159,41 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
             cmds.addAttr(name, ln=channelsAttrName[0], sn=channelsAttrName[1],  dt='string')
         cmds.setAttr(name+'.'+channelsAttrName[0], ';'.join(attrs), type="string" )
 
-    def loadSetData(self):
-        self.tree.clear()
-        sets = cmds.ls(sl=1, type='objectSet')
-        data = []
+    def loadFromSet(self):
+        menuData = []
+        sets = cmds.ls(type='objectSet')
         if sets:
-            content = cmds.sets( sets[0], q=True )
-            for c in content:
-                if cmds.attributeQuery( channelsAttrName[0], node=c, exists=True ):
-                    attrs = cmds.getAttr(c+'.'+channelsAttrName[0])
-                else:
-                    attrs = []
-                obj = ['.'.join([c,a]) for a in attrs.split(';')]
-                data += obj
-            self.tree.addObjects(data)
-            if cmds.attributeQuery( outPathAttrName[0], node=sets[0], exists=True ):
-                path = cmds.getAttr(sets[0]+'.'+outPathAttrName[0])
-                self.outPath.setPath(path)
+            menuData = [x for x in sets if cmds.attributeQuery(outPathAttrName[0], node=x, exists=True )]
+
+        menu = QMenu(self)
+        if menuData:
+            for m in menuData:
+                menu.addAction(QAction(m, self, triggered=lambda m=m: self.loadSetData(m)))
+        else:
+            act = QAction('No sets', self)
+            act.setEnabled(0)
+            menu.addAction(act)
+        menu.exec_(QCursor.pos())
+        # cmds.attributeQuery(outPathAttrName[0], node=setNode, exists=True )
+
+    def loadSetData(self, setName):
+        self.tree.clear()
+        # sets = cmds.ls(sl=1, type='objectSet')
+
+        data = []
+        # if sets:
+        content = cmds.sets( setName, q=True )
+        for c in content:
+            if cmds.attributeQuery( channelsAttrName[0], node=c, exists=True ):
+                attrs = cmds.getAttr(c+'.'+channelsAttrName[0])
+            else:
+                attrs = []
+            obj = ['.'.join([c,a]) for a in attrs.split(';')]
+            data += obj
+        self.tree.addObjects(data)
+        if cmds.attributeQuery( outPathAttrName[0], node=setName, exists=True ):
+            path = cmds.getAttr(setName+'.'+outPathAttrName[0])
+            self.outPath.setPath(path)
 
     def selectFilesToBatch(self):
         d=cmds.workspace( q=True, rd=True )
@@ -200,6 +220,15 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
             print i+1, '/', len(fbxList)
 
             self.startExport(fbx=scene, outFile=outPath, auto=True)
+
+
+    def showInfo(self):
+        objectCount = self.tree.topLevelItemCount()
+        channelCount = sum([self.tree.topLevelItem(x).childCount() for x in range(objectCount)])
+        msg = '''\
+Objects:  %s
+Channels: %s''' % (objectCount, channelCount)
+        self.info_lb.setText(msg)
 
 # if __name__ == '__main__':
 #     app = QApplication([])

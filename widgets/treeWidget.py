@@ -1,8 +1,7 @@
-from PySide.QtCore import *
-from PySide.QtGui import *
-import maya.cmds as cmds
+from qtimport import *
 
 class channelsTreeWidgetClass(QTreeWidget):
+    updateInfoSignal = qtsignal()
     def __init__(self):
         super(channelsTreeWidgetClass, self).__init__()
         self.setAlternatingRowColors(True)
@@ -33,6 +32,7 @@ class channelsTreeWidgetClass(QTreeWidget):
             if not chan in channels:
                 chanItem = QTreeWidgetItem(item)
                 chanItem.setText(0, chan)
+        self.updateInfoSignal.emit()
 
 
     def getData(self):
@@ -63,6 +63,7 @@ class channelsTreeWidgetClass(QTreeWidget):
         root = self.invisibleRootItem()
         for item in self.selectedItems():
             (item.parent() or root).removeChild(item)
+        self.updateInfoSignal.emit()
 
     def selectObjects(self):
         sel = self.selectedItems()
@@ -72,3 +73,4 @@ class channelsTreeWidgetClass(QTreeWidget):
                 objects.append(s.text(0))
         if objects:
             cmds.select(objects)
+        self.updateInfoSignal.emit()

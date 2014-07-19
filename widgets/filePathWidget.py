@@ -1,5 +1,4 @@
-from PySide.QtCore import *
-from PySide.QtGui import *
+from qtimport import *
 
 
 class filePathWidgetClass(QWidget):
@@ -48,9 +47,3 @@ class filePathWidgetClass(QWidget):
                                                , '', filterList)
         if path[0]:
             self.__path_le.setText(path[0])
-
-# if __name__ == '__main__':
-#     app = QApplication([])
-#     w = filePathWidgetClass(ext={'Houdini CHOP file':['clip']})
-#     w.show()
-#     app.exec_()

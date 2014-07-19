@@ -64,7 +64,7 @@
            <item>
             <widget class="QPushButton" name="saveToSet_btn">
              <property name="text">
-              <string>To Set</string>
+              <string>Save To Set</string>
              </property>
             </widget>
            </item>
@@ -80,14 +80,14 @@
            <item>
             <widget class="QPushButton" name="removeSelected_btn">
              <property name="text">
-              <string>Selected</string>
+              <string>Remove Selected</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QPushButton" name="removeAll_btn">
              <property name="text">
-              <string>All</string>
+              <string>Clear All</string>
              </property>
             </widget>
            </item>
@@ -151,9 +151,9 @@
       <item>
        <widget class="QGroupBox" name="groupBox_4">
         <property name="title">
-         <string>Range</string>
+         <string>Frame Range</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,1">
+        <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,1,1,0">
          <property name="leftMargin">
           <number>4</number>
          </property>
@@ -166,7 +166,7 @@
          <property name="bottomMargin">
           <number>4</number>
          </property>
-         <item row="0" column="2">
+         <item row="0" column="3">
           <widget class="QSpinBox" name="endRange_spb">
            <property name="minimum">
             <number>-999999999</number>
@@ -176,7 +176,7 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
+         <item row="0" column="2">
           <widget class="QSpinBox" name="startRange_spb">
            <property name="minimum">
             <number>-999999999</number>
@@ -193,33 +193,43 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="2">
-          <widget class="QPushButton" name="currentTimeToEnd_btn">
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
+         <item row="1" column="0" rowspan="2">
+          <widget class="QCheckBox" name="autoRange_cbx">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Request range from all animation curves in scene and set maximum and minimum to range &lt;/p&gt;&lt;p&gt;Always On in batch mode&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="text">
-            <string>Current to end ▲ </string>
+            <string>AUTO</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
+         <item row="0" column="1">
           <widget class="QPushButton" name="currentTimeToStart_btn">
            <property name="maximumSize">
             <size>
-             <width>16777215</width>
+             <width>30</width>
              <height>16777215</height>
             </size>
            </property>
            <property name="text">
-            <string>▲ Current to start</string>
+            <string>►</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="1" colspan="2">
+         <item row="0" column="4">
+          <widget class="QPushButton" name="currentTimeToEnd_btn">
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>◄</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1" colspan="4">
           <widget class="QPushButton" name="setTimeLineRange_btn">
            <property name="maximumSize">
             <size>
@@ -229,16 +239,6 @@
            </property>
            <property name="text">
             <string>▲     From Time Line    ▲ </string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" rowspan="2">
-          <widget class="QCheckBox" name="autoRange_cbx">
-           <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Request range from all animation curves in scene and set maximum and minimum to range &lt;/p&gt;&lt;p&gt;Always On in batch mode&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="text">
-            <string>AUTO</string>
            </property>
           </widget>
          </item>

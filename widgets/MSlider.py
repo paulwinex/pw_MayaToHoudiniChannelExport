@@ -1,20 +1,5 @@
-from PySide.QtCore import *
-from PySide.QtGui import *
-import maya.OpenMayaUI as omui
-from shiboken import wrapInstance as wrp
-import maya.cmds as cmds
 import random
-
-def qControl(mayaName, qobj=None):
-    if not qobj:
-        qobj = QObject
-    ptr = omui.MQtUtil.findControl(mayaName)
-    if ptr is None:
-        ptr = omui.MQtUtil.findLayout(mayaName)
-    if ptr is None:
-        ptr = omui.MQtUtil.findMenuItem(mayaName)
-    return wrp(long(ptr), qobj)
-
+from qtimport import *
 
 
 class MSliderClass(QWidget):
@@ -54,8 +39,3 @@ class MSliderClass(QWidget):
 
     def setValue(self, val):
         cmds.floatSliderGrp(self.val, e=1, v=val)
-        # self.val.setText(str(float(val)))
-
-# w = MSliderClass()
-# w.setWindowFlags(Qt.Window)
-# w.show()

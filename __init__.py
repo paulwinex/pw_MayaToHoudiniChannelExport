@@ -5,10 +5,7 @@ act={name:Export Channels to Houdini,action:show()}
 Export channels to Houdini *.clip file
 '''
 
-import maya.OpenMayaUI as omui
-from PySide.QtGui import *
-from PySide.QtCore import *
-from shiboken import wrapInstance as wrp
+from qtimport import *
 
 from . import channelExportWindow
 reload(channelExportWindow)
