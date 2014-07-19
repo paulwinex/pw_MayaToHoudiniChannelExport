@@ -1,5 +1,5 @@
 import random
-from qtimport import *
+from ..mayaqtimport import *
 
 
 class MSliderClass(QWidget):
@@ -26,7 +26,7 @@ class MSliderClass(QWidget):
                                   maxValue=2.0,
                                   fieldMinValue=0.0,
                                   fieldMaxValue=10000.0,
-                                  value=0.01,
+                                  value=1,
                                   precision=3,
                                   columnWidth3=[90,80,150]
                                   )

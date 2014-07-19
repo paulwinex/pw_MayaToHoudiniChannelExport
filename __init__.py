@@ -4,11 +4,18 @@ act={name:Export Channels to Houdini,action:show()}
 '''moduleInfo
 Export channels to Houdini *.clip file
 '''
+'''
+Maya to Houdini Channel exporter
+author: paulWinex
+sile: paulwinex.ru
 
-from qtimport import *
+This script save maya animation channels to houdini .clip file.
+You can load .clip file via fileCHOP.
+'''
+from mayaqtimport import *
 
 from . import channelExportWindow
-reload(channelExportWindow)
+# reload(channelExportWindow)
 
 def getMayaWindow():
     ptr = omui.MQtUtil.mainWindow()

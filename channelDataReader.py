@@ -10,6 +10,7 @@ fpsList = {'game':15,
 
 
 def readChannelsData(channels, frameRange, progress, options):
+
     channelsValue = {x:[] for x in channels}
     for i in range(frameRange[0], frameRange[1]+1):
         cmds.currentTime(i)
@@ -25,7 +26,7 @@ def readChannelsData(channels, frameRange, progress, options):
 
 def exporter(data, frameRange):
     fps = fpsList[cmds.currentUnit(q=1, t=1)]
-    startFrame = frameRange[0]
+    startFrame = frameRange[0]-1
     length = frameRange[1]-frameRange[0] + 1
     count = len(data)
     text = '''\
@@ -50,3 +51,4 @@ def export(channels, outFile, frange, progres, options):
     text = exporter(dataChannels, frange)
     with open(outFile,'w') as f:
         f.write(text)
+

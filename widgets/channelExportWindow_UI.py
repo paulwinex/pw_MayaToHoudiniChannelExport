@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\Dropbox\Dropbox\pw_prefs\RnD\maya\python\Export\pw_MayaToHoudiniChannelExport\widgets\channelExportWindow.ui'
 #
-# Created: Sat Jul 19 10:45:09 2014
+# Created: Sat Jul 19 14:46:12 2014
 #      by: PyQt4 UI code generator 4.11
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_channelExportWindow(object):
     def setupUi(self, channelExportWindow):
         channelExportWindow.setObjectName(_fromUtf8("channelExportWindow"))
-        channelExportWindow.resize(432, 596)
+        channelExportWindow.resize(432, 621)
         self.centralwidget = QtGui.QWidget(channelExportWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.verticalLayout_4 = QtGui.QVBoxLayout(self.centralwidget)
@@ -57,6 +57,9 @@ class Ui_channelExportWindow(object):
         self.addFromSet_btn = QtGui.QPushButton(self.groupBox)
         self.addFromSet_btn.setObjectName(_fromUtf8("addFromSet_btn"))
         self.verticalLayout.addWidget(self.addFromSet_btn)
+        self.addFromFile_btn = QtGui.QPushButton(self.groupBox)
+        self.addFromFile_btn.setObjectName(_fromUtf8("addFromFile_btn"))
+        self.verticalLayout.addWidget(self.addFromFile_btn)
         self.verticalLayout_3.addWidget(self.groupBox)
         self.groupBox_3 = QtGui.QGroupBox(self.layoutWidget)
         self.groupBox_3.setObjectName(_fromUtf8("groupBox_3"))
@@ -65,6 +68,9 @@ class Ui_channelExportWindow(object):
         self.saveToSet_btn = QtGui.QPushButton(self.groupBox_3)
         self.saveToSet_btn.setObjectName(_fromUtf8("saveToSet_btn"))
         self.verticalLayout_5.addWidget(self.saveToSet_btn)
+        self.saveToFile_btn = QtGui.QPushButton(self.groupBox_3)
+        self.saveToFile_btn.setObjectName(_fromUtf8("saveToFile_btn"))
+        self.verticalLayout_5.addWidget(self.saveToFile_btn)
         self.verticalLayout_3.addWidget(self.groupBox_3)
         self.groupBox_2 = QtGui.QGroupBox(self.layoutWidget)
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
@@ -73,6 +79,9 @@ class Ui_channelExportWindow(object):
         self.removeSelected_btn = QtGui.QPushButton(self.groupBox_2)
         self.removeSelected_btn.setObjectName(_fromUtf8("removeSelected_btn"))
         self.verticalLayout_2.addWidget(self.removeSelected_btn)
+        self.removeNonExists_btn = QtGui.QPushButton(self.groupBox_2)
+        self.removeNonExists_btn.setObjectName(_fromUtf8("removeNonExists_btn"))
+        self.verticalLayout_2.addWidget(self.removeNonExists_btn)
         self.removeAll_btn = QtGui.QPushButton(self.groupBox_2)
         self.removeAll_btn.setObjectName(_fromUtf8("removeAll_btn"))
         self.verticalLayout_2.addWidget(self.removeAll_btn)
@@ -165,10 +174,13 @@ class Ui_channelExportWindow(object):
         self.addSelectedObject_btn.setText(_translate("channelExportWindow", "Selected objects", None))
         self.addFromChannelBox_btn.setText(_translate("channelExportWindow", "From Channel Box", None))
         self.addFromSet_btn.setText(_translate("channelExportWindow", "From Set", None))
+        self.addFromFile_btn.setText(_translate("channelExportWindow", "Import From File", None))
         self.groupBox_3.setTitle(_translate("channelExportWindow", "Save channels", None))
         self.saveToSet_btn.setText(_translate("channelExportWindow", "Save To Set", None))
+        self.saveToFile_btn.setText(_translate("channelExportWindow", "Export To File", None))
         self.groupBox_2.setTitle(_translate("channelExportWindow", "Remove channel", None))
         self.removeSelected_btn.setText(_translate("channelExportWindow", "Remove Selected", None))
+        self.removeNonExists_btn.setText(_translate("channelExportWindow", "Remove Nonexistent Objects", None))
         self.removeAll_btn.setText(_translate("channelExportWindow", "Clear All", None))
         self.info_lb.setText(_translate("channelExportWindow", "Info", None))
         self.groupBox_5.setTitle(_translate("channelExportWindow", "Options", None))

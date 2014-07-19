@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'D:\Dropbox\Dropbox\pw_prefs\RnD\maya\python\Export\pw_MayaToHoudiniChannelExport\widgets\channelExportWindow.ui'
 #
-# Created: Sat Jul 19 10:45:09 2014
+# Created: Sat Jul 19 14:46:13 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_channelExportWindow(object):
     def setupUi(self, channelExportWindow):
         channelExportWindow.setObjectName("channelExportWindow")
-        channelExportWindow.resize(432, 596)
+        channelExportWindow.resize(432, 621)
         self.centralwidget = QtGui.QWidget(channelExportWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_4 = QtGui.QVBoxLayout(self.centralwidget)
@@ -43,6 +43,9 @@ class Ui_channelExportWindow(object):
         self.addFromSet_btn = QtGui.QPushButton(self.groupBox)
         self.addFromSet_btn.setObjectName("addFromSet_btn")
         self.verticalLayout.addWidget(self.addFromSet_btn)
+        self.addFromFile_btn = QtGui.QPushButton(self.groupBox)
+        self.addFromFile_btn.setObjectName("addFromFile_btn")
+        self.verticalLayout.addWidget(self.addFromFile_btn)
         self.verticalLayout_3.addWidget(self.groupBox)
         self.groupBox_3 = QtGui.QGroupBox(self.layoutWidget)
         self.groupBox_3.setObjectName("groupBox_3")
@@ -51,6 +54,9 @@ class Ui_channelExportWindow(object):
         self.saveToSet_btn = QtGui.QPushButton(self.groupBox_3)
         self.saveToSet_btn.setObjectName("saveToSet_btn")
         self.verticalLayout_5.addWidget(self.saveToSet_btn)
+        self.saveToFile_btn = QtGui.QPushButton(self.groupBox_3)
+        self.saveToFile_btn.setObjectName("saveToFile_btn")
+        self.verticalLayout_5.addWidget(self.saveToFile_btn)
         self.verticalLayout_3.addWidget(self.groupBox_3)
         self.groupBox_2 = QtGui.QGroupBox(self.layoutWidget)
         self.groupBox_2.setObjectName("groupBox_2")
@@ -59,6 +65,9 @@ class Ui_channelExportWindow(object):
         self.removeSelected_btn = QtGui.QPushButton(self.groupBox_2)
         self.removeSelected_btn.setObjectName("removeSelected_btn")
         self.verticalLayout_2.addWidget(self.removeSelected_btn)
+        self.removeNonExists_btn = QtGui.QPushButton(self.groupBox_2)
+        self.removeNonExists_btn.setObjectName("removeNonExists_btn")
+        self.verticalLayout_2.addWidget(self.removeNonExists_btn)
         self.removeAll_btn = QtGui.QPushButton(self.groupBox_2)
         self.removeAll_btn.setObjectName("removeAll_btn")
         self.verticalLayout_2.addWidget(self.removeAll_btn)
@@ -151,10 +160,13 @@ class Ui_channelExportWindow(object):
         self.addSelectedObject_btn.setText(QtGui.QApplication.translate("channelExportWindow", "Selected objects", None, QtGui.QApplication.UnicodeUTF8))
         self.addFromChannelBox_btn.setText(QtGui.QApplication.translate("channelExportWindow", "From Channel Box", None, QtGui.QApplication.UnicodeUTF8))
         self.addFromSet_btn.setText(QtGui.QApplication.translate("channelExportWindow", "From Set", None, QtGui.QApplication.UnicodeUTF8))
+        self.addFromFile_btn.setText(QtGui.QApplication.translate("channelExportWindow", "Import From File", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_3.setTitle(QtGui.QApplication.translate("channelExportWindow", "Save channels", None, QtGui.QApplication.UnicodeUTF8))
         self.saveToSet_btn.setText(QtGui.QApplication.translate("channelExportWindow", "Save To Set", None, QtGui.QApplication.UnicodeUTF8))
+        self.saveToFile_btn.setText(QtGui.QApplication.translate("channelExportWindow", "Export To File", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("channelExportWindow", "Remove channel", None, QtGui.QApplication.UnicodeUTF8))
         self.removeSelected_btn.setText(QtGui.QApplication.translate("channelExportWindow", "Remove Selected", None, QtGui.QApplication.UnicodeUTF8))
+        self.removeNonExists_btn.setText(QtGui.QApplication.translate("channelExportWindow", "Remove Nonexistent Objects", None, QtGui.QApplication.UnicodeUTF8))
         self.removeAll_btn.setText(QtGui.QApplication.translate("channelExportWindow", "Clear All", None, QtGui.QApplication.UnicodeUTF8))
         self.info_lb.setText(QtGui.QApplication.translate("channelExportWindow", "Info", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_5.setTitle(QtGui.QApplication.translate("channelExportWindow", "Options", None, QtGui.QApplication.UnicodeUTF8))

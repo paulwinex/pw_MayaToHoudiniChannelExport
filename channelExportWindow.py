@@ -1,23 +1,24 @@
-import os
+import os, json
 
-from qtimport import *
+from mayaqtimport import *
 if qt == 1:
     from widgets import channelExportWindow_UI as ui
 else:
     from widgets import channelExportWindow_UIs as ui
+# reload(ui)
 from widgets import MSlider
-reload(MSlider)
-reload(ui)
+# reload(MSlider)
 from widgets import treeWidget
-reload(treeWidget)
+# reload(treeWidget)
 import channelDataReader
-reload(channelDataReader)
+# reload(channelDataReader)
 from widgets import filePathWidget
 
 gChannelBoxName = mel.eval('$temp=$gChannelBoxName')
 channelsAttrName = ['mthchannelnames', 'cnm']
-outPathAttrName = ['savepath', 'spt']
-version = 1.1
+setAttrName = ['exportData', 'exp']
+
+version = 1.2
 
 class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
     def __init__(self, parent):
@@ -41,12 +42,14 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
         self.removeSelected_btn.clicked.connect(self.tree.removeSelected)
         self.setTimeLineRange_btn.clicked.connect(self.setRangeFromScene)
         self.saveToSet_btn.clicked.connect(self.saveSetData)
-        # self.addFromSet_btn.clicked.connect(self.loadSetData)
         self.addFromSet_btn.clicked.connect(self.loadFromSet)
         self.currentTimeToEnd_btn.clicked.connect(self.setEndFrameByCurrent)
         self.currentTimeToStart_btn.clicked.connect(self.setStartFrameByCurrent)
         self.batchMode_btn.clicked.connect(self.selectFilesToBatch)
+        self.removeNonExists_btn.clicked.connect(self.tree.cleanNonExistsObjects)
         self.tree.updateInfoSignal.connect(self.showInfo)
+        self.saveToFile_btn.clicked.connect(self.saveToFile)
+        self.addFromFile_btn.clicked.connect(self.importFromFile)
         #start
         self.showInfo()
 
@@ -78,9 +81,7 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
             if shChannels:
                 for atr in shChannels:
                     data.append('.'.join([obj,atr]))
-        # return data
         if data:
-            # print data
             self.tree.addObjects(data)
 
     def setRangeFromScene(self):
@@ -99,6 +100,13 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
         self.startExport(auto=self.autoRange_cbx.isChecked())
 
     def startExport(self, frange=None, fbx=None, outFile=None, auto=False):
+        channels = self.tree.getData()
+        if not os.path.exists(os.path.dirname(self.outPath.path())):
+            cmds.confirmDialog( title='Empty channels', message='Wrong Output Folder', button=['OK'] )
+            return
+        if not channels:
+            cmds.confirmDialog( title='Empty channels', message='Channels list is empty', button=['OK'] )
+            return
         if fbx:
             cmds.file(fbx,
                       i=1,
@@ -110,7 +118,6 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
                       options="groups=0;ptgroups=0;materials=0;smoothing=1;normals=1",
                       loadReferenceDepth="all"
                       )
-
         if not auto:
             if not frange:
                 frange = [self.startRange_spb.value(),
@@ -120,13 +127,8 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
 
         if not outFile:
             outFile = self.outPath.path()
-
-        channels = self.tree.getData()
         print 'Output file:'
         print '\t', outFile
-        # print 'Channels:'
-        # for c in channels:
-        #     print '\t', c
         print 'Animation Range:'
         print '\t', frange[0], ':', frange[1]
         scale = self.scale_sbx.value()
@@ -135,10 +137,16 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
         self.progress_pbr.setValue(0)
 
     def getAutoRange(self):
-        maxTime = max([ x for x in [ max(cmds.keyframe(crv,q=1, tc=1)) for crv in cmds.ls(type='animCurve') ] ])
-        minTime = min([ x for x in [ min(cmds.keyframe(crv,q=1, tc=1)) for crv in cmds.ls(type='animCurve') ] ])
-        result = [int(minTime), int(maxTime)]
-        return result
+        allCurves = cmds.ls(type='animCurve')
+        if allCurves:
+            maxTime = max([ x for x in [ max(cmds.keyframe(crv,q=1, tc=1)) for crv in allCurves ] ])
+            minTime = min([ x for x in [ min(cmds.keyframe(crv,q=1, tc=1)) for crv in allCurves ] ])
+            result = [int(minTime), int(maxTime)]
+            return result
+        else:
+            st = int(cmds.playbackOptions(q=1, minTime=1))
+            en = int(cmds.playbackOptions(q=1, maxTime=1))
+            return [int(st), int(en)]
 
     def saveSetData(self):
         objs = self.tree.getObjectsAttr()
@@ -146,13 +154,26 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
             return
         text, ok = QInputDialog.getText(self, 'Create export set', 'Enter name:', QLineEdit.Normal,'NewSet')
         if ok:
+            #check objets exists
+            for o in objs.keys():
+                if not cmds.objExists(o):
+                    del objs[o]
+            self.tree.cleanNonExistsObjects()
+
             setNode = cmds.sets(objs.keys(), n=text)
             for name, attrs in objs.items():
                 self.addExportChannelsDataToObject(name, attrs)
+            #save path
+            if not cmds.attributeQuery(setAttrName[0], node=setNode, exists=True ):
+                cmds.addAttr(setNode, ln=setAttrName[0], sn=setAttrName[1],  dt='string')
+            # compute data
+            data = dict(path=self.outPath.path(),
+                        start=self.startRange_spb.value(),
+                        end=self.endRange_spb.value(),
+                        scale=self.scale_sbx.value(),
+                        auto=self.autoRange_cbx.isChecked())
+            cmds.setAttr(setNode+'.'+setAttrName[0], json.dumps(data), type="string" )
 
-            if not cmds.attributeQuery(outPathAttrName[0], node=setNode, exists=True ):
-                cmds.addAttr(setNode, ln=outPathAttrName[0], sn=outPathAttrName[1],  dt='string')
-            cmds.setAttr(setNode+'.'+outPathAttrName[0], self.outPath.path(), type="string" )
 
     def addExportChannelsDataToObject(self, name, attrs):
         if not cmds.attributeQuery( channelsAttrName[0], node=name, exists=True ):
@@ -163,7 +184,7 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
         menuData = []
         sets = cmds.ls(type='objectSet')
         if sets:
-            menuData = [x for x in sets if cmds.attributeQuery(outPathAttrName[0], node=x, exists=True )]
+            menuData = [x for x in sets if cmds.attributeQuery(setAttrName[0], node=x, exists=True )]
 
         menu = QMenu(self)
         if menuData:
@@ -174,14 +195,10 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
             act.setEnabled(0)
             menu.addAction(act)
         menu.exec_(QCursor.pos())
-        # cmds.attributeQuery(outPathAttrName[0], node=setNode, exists=True )
 
     def loadSetData(self, setName):
         self.tree.clear()
-        # sets = cmds.ls(sl=1, type='objectSet')
-
         data = []
-        # if sets:
         content = cmds.sets( setName, q=True )
         for c in content:
             if cmds.attributeQuery( channelsAttrName[0], node=c, exists=True ):
@@ -191,9 +208,38 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
             obj = ['.'.join([c,a]) for a in attrs.split(';')]
             data += obj
         self.tree.addObjects(data)
-        if cmds.attributeQuery( outPathAttrName[0], node=setName, exists=True ):
-            path = cmds.getAttr(setName+'.'+outPathAttrName[0])
-            self.outPath.setPath(path)
+        #load path
+        if cmds.attributeQuery( setAttrName[0], node=setName, exists=True ):
+            data = cmds.getAttr(setName+'.'+setAttrName[0])
+            try:
+                data = json.loads(data)
+            except:
+                data = None
+            if data:
+                self.scale_sbx.setValue(data.get('scale',1))
+                self.startRange_spb.setValue(data.get('start', 1))
+                self.endRange_spb.setValue(data.get('end',100))
+                self.autoRange_cbx.setChecked(data.get('auto', False))
+                self.outPath.setPath(data.get('path',''))
+
+    def saveToFile(self):
+        data = self.tree.getData()
+        if data:
+            path = QFileDialog.getSaveFileName(self,'Save channels')
+            if path[0]:
+                json.dump(data, open(path[0], 'w'), indent=4)
+
+    def importFromFile(self):
+        path = QFileDialog.getOpenFileName(self,
+                                           'Load channels')
+        if path[0]:
+            try:
+                data = json.load(open(path[0]))
+                self.tree.addObjects(data)
+            except:
+                cmds.confirmDialog( title='Error', message='Error read file', button=['OK'] )
+
+
 
     def selectFilesToBatch(self):
         d=cmds.workspace( q=True, rd=True )
@@ -206,7 +252,6 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
             self.batchMode(path[0], out)
 
     def batchMode(self, fbxList, out):
-        # startTime = time.time()
         for i, scene in enumerate(fbxList):
             if out:
                 name, ext = os.path.splitext(scene)
@@ -229,9 +274,3 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
 Objects:  %s
 Channels: %s''' % (objectCount, channelCount)
         self.info_lb.setText(msg)
-
-# if __name__ == '__main__':
-#     app = QApplication([])
-#     w = channelExporterWindowClass()
-#     w.show()
-#     app.exec_()

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>432</width>
-    <height>596</height>
+    <height>621</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -52,6 +52,13 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QPushButton" name="addFromFile_btn">
+             <property name="text">
+              <string>Import From File</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -68,6 +75,13 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QPushButton" name="saveToFile_btn">
+             <property name="text">
+              <string>Export To File</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -81,6 +95,13 @@
             <widget class="QPushButton" name="removeSelected_btn">
              <property name="text">
               <string>Remove Selected</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="removeNonExists_btn">
+             <property name="text">
+              <string>Remove Nonexistent Objects</string>
              </property>
             </widget>
            </item>

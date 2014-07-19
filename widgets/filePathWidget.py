@@ -1,4 +1,4 @@
-from qtimport import *
+from ..mayaqtimport import *
 
 
 class filePathWidgetClass(QWidget):

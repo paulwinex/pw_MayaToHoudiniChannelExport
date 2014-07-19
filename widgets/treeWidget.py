@@ -1,4 +1,4 @@
-from qtimport import *
+from ..mayaqtimport import *
 
 class channelsTreeWidgetClass(QTreeWidget):
     updateInfoSignal = qtsignal()
@@ -40,11 +40,20 @@ class channelsTreeWidgetClass(QTreeWidget):
         for i in range(self.topLevelItemCount()):
             topItem = self.topLevelItem(i)
             name = topItem.text(0)
-            for j in range(topItem.childCount()):
-                atrItem = topItem.child(j)
-                atr = atrItem.text(0)
-                data.append('.'.join([name, atr]))
+            if cmds.objExists(name):
+                for j in range(topItem.childCount()):
+                    atrItem = topItem.child(j)
+                    atr = atrItem.text(0)
+                    data.append('.'.join([name, atr]))
         return data
+
+
+    def cleanNonExistsObjects(self):
+        for i in range(self.topLevelItemCount()):
+            topItem = self.topLevelItem(i)
+            name = topItem.text(0)
+            if not cmds.objExists(name):
+                self.takeTopLevelItem(self.indexOfTopLevelItem(topItem))
 
     def getObjectsAttr(self):
         data = {}
@@ -72,5 +81,9 @@ class channelsTreeWidgetClass(QTreeWidget):
             if self.indexOfTopLevelItem(s) >=0:
                 objects.append(s.text(0))
         if objects:
-            cmds.select(objects)
+            cmds.select(cl=1)
+            for o in objects:
+                if cmds.objExists(o):
+                    cmds.select(o, add=1)
         self.updateInfoSignal.emit()
+
