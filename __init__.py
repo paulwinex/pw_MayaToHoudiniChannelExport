@@ -11,7 +11,12 @@ sile: paulwinex.ru
 
 This script save maya animation channels to houdini .clip file.
 You can load .clip file via fileCHOP.
+
+Usage
+import pw_MayaToHoudiniChannelExport
+pw_MayaToHoudiniChannelExport.show()
 '''
+
 from mayaqtimport import *
 
 from . import channelExportWindow

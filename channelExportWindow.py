@@ -225,7 +225,14 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
                 self.outPath.setPath(data.get('path',''))
 
     def saveToFile(self):
-        data = self.tree.getData()
+        data = dict(channels=self.tree.getData(),
+                    scale=self.scale_sbx.value(),
+                    start=self.startRange_spb.value(),
+                    end=self.endRange_spb.value(),
+                    path=self.outPath.path(),
+                    auto=self.autoRange_cbx.isChecked()
+        )
+
         if data:
             path = QFileDialog.getSaveFileName(self,'Save channels')
             if path[0]:
@@ -237,7 +244,12 @@ class channelExporterWindowClass(QMainWindow, ui.Ui_channelExportWindow):
         if path[0]:
             try:
                 data = json.load(open(path[0]))
-                self.tree.addObjects(data)
+                self.tree.addObjects(data['channels'])
+                self.scale_sbx.setValue(data['scale'])
+                self.startRange_spb.setValue(data['start'])
+                self.endRange_spb.setValue(data['end'])
+                self.outPath.setPath(data['path'])
+                self.autoRange_cbx.setChecked(data['auto'])
             except:
                 cmds.confirmDialog( title='Error', message='Error read file', button=['OK'] )
 
