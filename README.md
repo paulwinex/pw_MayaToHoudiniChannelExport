@@ -3,11 +3,6 @@ pw_MayaToHoudiniChannelExport
 
 ![alt tag](http://www.paulwinex.ru/wp-content/uploads/2014/07/mthce_image.jpg)
 
-Export Maya channels to single Houdini CHOP file
-
-<pre><code>import pw_MayaToHoudiniChannelExport
-pw_MayaToHoudiniChannelExport.show()</code></pre>
-
 This script is designed to export animation channels from Maya to Houdini CHOP files.  A format that Houdini understands as CHOP channels. You do not require any additional plug-ins or scripts to read the data in Houdini.
 
 Supports any number of attributes from channelBox. You only need to select an attribute and add it to the list
