@@ -31,4 +31,4 @@ Open Script Editor and run the code
 <pre><code>import pw_MayaToHoudiniChannelExport
 pw_MayaToHoudiniChannelExport.show ()</code></pre>
 
-If your Maya version is lower than 2014, you need to install PyQt.
+If your Maya version is lower than 2014, you need to install [PyQt](http://www.paulwinex.ru/installpyqteng/)
