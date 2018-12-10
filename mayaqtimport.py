@@ -17,7 +17,7 @@ try:
     qt = 1
 except ImportError:
     try:
-        import PySide
+        import PySide2
         qt = 2
     except ImportError:
         print 'ERRRRRORRRR '* 10
@@ -35,9 +35,10 @@ elif qt ==1:
             return wrp(long(ptr), QObject)
 
 elif qt ==2:
-    from PySide.QtGui import *
-    from PySide.QtCore import *
-    from shiboken import wrapInstance as wrp
+    from PySide2.QtGui import *
+    from PySide2.QtCore import *
+    from PySide2.QtWidgets import *
+    from shiboken2 import wrapInstance as wrp
     qtsignal = Signal
     def getMayaWindow():
         ptr = omui.MQtUtil.mainWindow()

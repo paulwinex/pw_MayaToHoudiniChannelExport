@@ -19,7 +19,7 @@ pw_MayaToHoudiniChannelExport.show()
 
 from mayaqtimport import *
 
-from . import channelExportWindow
+import channelExportWindow
 reload(channelExportWindow)
 
 def getMayaWindow():
