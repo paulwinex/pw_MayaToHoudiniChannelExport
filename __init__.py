@@ -16,14 +16,14 @@ Usage
 import pw_MayaToHoudiniChannelExport
 pw_MayaToHoudiniChannelExport.show()
 '''
-
 from mayaqtimport import *
+# import mayaqtimport 
 
-from . import channelExportWindow
+import channelExportWindow
 reload(channelExportWindow)
 
 def getMayaWindow():
-    ptr = omui.MQtUtil.mainWindow()
+    ptr = mayaqtimport.omui.MQtUtil.mainWindow()
     if ptr is not None:
         return wrp(long(ptr), QMainWindow)
 
