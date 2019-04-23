@@ -21,6 +21,10 @@ Copy the folder to pw_MayaToHoudiniChannelExport  the library for Python-modules
 
          MAYA_INSTALL \ Python \ Lib \ site-packages
 
+or at:
+
+         ~ \ maya \ 2018 \ scripts
+
 Open Script Editor and run the code
 
 <pre><code>import pw_MayaToHoudiniChannelExport
