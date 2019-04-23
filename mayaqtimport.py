@@ -4,7 +4,7 @@ import maya.mel as mel
 
 # check maya version
 support = 0
-ver = int(cmds.about(file=True))
+ver = int(print(cmds.about(file=True, version=True)))
 if 2010 < ver:# < 2014:
     support = 1#version OK
 else:
