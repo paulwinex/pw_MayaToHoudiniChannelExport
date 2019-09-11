@@ -32,6 +32,10 @@ But better wai is cr copy to you custom path and update PYTHONPATH environment.
 
 2. Run
 
+or at:
+
+         ~ \ maya \ 2018 \ scripts
+
 Open Script Editor and run the code
 
 ```python
