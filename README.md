@@ -1,11 +1,10 @@
 pw_MayaToHoudiniChannelExport
 =============================
 
-![alt tag](http://www.paulwinex.ru/wp-content/uploads/2014/07/mthce_image.jpg)
+This script is designed to export animation channels from Maya to Houdini CHOP files.
+A format that Houdini understands as CHOP channels (*.clip). You do not require any additional plug-ins or scripts to read the data in Houdini.
 
-This script is designed to export animation channels from Maya to Houdini CHOP files.  A format that Houdini understands as CHOP channels. You do not require any additional plug-ins or scripts to read the data in Houdini.
-
-Supports any number of attributes from channelBox. You only need to select an attribute and add it to the list
+Supports any number of attributes from channelBox. You only need to select an attribute and add it to the list.
 
 - One file can have any number of channels. Very convenient for transferring character animation or mocap
 
@@ -15,15 +14,45 @@ Supports any number of attributes from channelBox. You only need to select an at
 
 - Batch-mode to export several FBX files with animation
 
+### Video Tutorial
+
+https://vimeo.com/101163979
+
 ### Installation:
 
-Copy the folder to pw_MayaToHoudiniChannelExport  the library for Python-modules. For example at:
+1. Install maya_to_houdini_channel_exporter
 
-         MAYA_INSTALL \ Python \ Lib \ site-packages
+Copy the folder maya_to_houdini_channel_exporter to the library for Python-modules. For example at:
+
+    <MAYA_INSTALL>\Python\Lib\site-packages
+    # or
+    <DOCUMENTS>\maya\scripts
+
+But better wai is cr copy to you custom path and update PYTHONPATH environment.
+
+2. Run
 
 Open Script Editor and run the code
 
-<pre><code>import pw_MayaToHoudiniChannelExport
-pw_MayaToHoudiniChannelExport.show ()</code></pre>
+```python
+import maya_to_houdini_channel_exporter
+maya_to_houdini_channel_exporter.show ()
+```
 
-If your Maya version is lower than 2014, you need to install [PyQt](http://www.paulwinex.ru/installpyqteng/)
+
+### API
+
+To use exporter without UI use module `channelExporter`
+
+```python
+from maya_to_houdini_channel_exporter import channelExporter
+
+channelExporter.export(
+    channels=['object1.tx', 'object1.ty', 'object1.tz'],
+    outFile='/path/to/file.clip',
+    frange=[0, 100],
+    options=dict(scale=1)
+    )
+# using preset
+channelExporter.export_from_preset('path/to/preset.ext', outFile='/path/to/file.clip')
+```
